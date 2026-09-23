@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mustafa & Endra | Tech Duo Portofolio AMOLED</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        amoled: {
+                            bg: '#000000',
+                            card: '#08080E',
+                            border: 'rgba(0, 240, 255, 0.15)',
+                            cyan: '#00F0FF',
+                            blue: '#0072FF',
+                            accent: '#3B82F6',
+                            glow: 'rgba(0, 240, 255, 0.4)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                        'scanline': 'scanline 8s linear infinite',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.3', transform: 'scale(1)' },
+                            '50%': { opacity: '0.7', transform: 'scale(1.05)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' }
+                        },
+                        scanline: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(1000%)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & Lucide Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #E2E8F0;
+            overflow-x: hidden;
+        }
+
+        /* AMOLED Glow & Glassmorphism Effects */
+        .amoled-card {
+            background: rgba(8, 8, 14, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 240, 255, 0.12);
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .amoled-card:hover {
+            border-color: rgba(0, 240, 255, 0.4);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.18);
+        }
+
+        .neon-glow-cyan {
+            text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+        }
+
+        .neon-glow-blue {
+            text-shadow: 0 0 12px rgba(0, 114, 255, 0.6);
+        }
+
+        .neon-border-glow {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3), inset 0 0 15px rgba(0, 240, 255, 0.1);
+        }
+
+        /* Grid Background pattern */
+        .bg-grid-pattern {
+            background-image: linear-gradient(to right, rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Smooth Scroll Reveal Utility Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0072FF;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00F0FF;
+        }
+    </style>
+</head>
+<body class="bg-black text-slate-100 min-h-screen bg-grid-pattern relative">
+
+    <!-- Ambient AMOLED Background Lighting Dynamic Gradients -->
+    <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none -z-10 animate-pulse-glow"></div>
+    <div class="fixed top-1/3 right-10 w-[450px] h-[450px] bg-blue-600/10 rounded-full blur-[140px] pointer-events-none -z-10 animate-pulse-glow" style="animation-delay: 1.5s;"></div>
+    <div class="fixed bottom-10 left-10 w-[400px] h-[400px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 w-full amoled-card border-b border-cyan-500/10 bg-black/80 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#hero" class="flex items-center space-x-3 group">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-black font-black shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition">
+                    <i data-lucide="cpu" class="w-5 h-5 text-black"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-extrabold tracking-wider text-sm sm:text-base text-white group-hover:text-cyan-400 transition">MUSTAFA & ENDRA</span>
+                    <span class="text-[10px] font-mono text-cyan-400 tracking-widest uppercase">X-K TECH DUO</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-1 text-xs font-semibold uppercase tracking-wider">
+                <a href="#hero" class="px-3 py-2 rounded-lg hover:text-cyan-400 hover:bg-cyan-500/10 transition">Profil Duo</a>
+                <a href="#specs" class="px-3 py-2 rounded-lg hover:text-cyan-400 hover:bg-cyan-500/10 transition">Matriks Keahlian</a>
+                <a href="#timeline" class="px-3 py-2 rounded-lg hover:text-cyan-400 hover:bg-cyan-500/10 transition">Jejak SD-SMA</a>
+                <a href="#terminal" class="px-3 py-2 rounded-lg hover:text-cyan-400 hover:bg-cyan-500/10 transition">CLI Terminal</a>
+                <a href="#contact" class="px-3 py-2 rounded-lg hover:text-cyan-400 hover:bg-cyan-500/10 transition">Kontak</a>
+            </nav>
+
+            <!-- Status Indicator & CTA -->
+            <div class="flex items-center space-x-3">
+                <div class="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[11px] font-mono text-cyan-400">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                    <span>X-K HARDWARE & SOFTWARE MASTERS</span>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-xl border border-cyan-500/20 bg-slate-900/50 text-cyan-400">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden border-b border-cyan-500/20 px-4 pt-2 pb-4 space-y-2 text-xs font-mono uppercase bg-black/95">
+            <a href="#hero" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-cyan-500/10 text-cyan-400">Profil Duo</a>
+            <a href="#specs" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-cyan-500/10">Matriks Keahlian</a>
+            <a href="#timeline" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-cyan-500/10">Jejak SD-SMA</a>
+            <a href="#terminal" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-cyan-500/10">CLI Terminal</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-cyan-500/10">Kontak</a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-28 py-12">
+
+        <!-- Hero Section with Dual Profil Side-by-Side -->
+        <section id="hero" class="space-y-12 pt-4">
+            <!-- Header Banner Duo -->
+            <div class="text-center space-y-4 max-w-3xl mx-auto reveal">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/5 text-cyan-400 font-mono text-xs font-semibold tracking-widest uppercase">
+                    <i data-lucide="zap" class="w-4 h-4 text-cyan-400"></i> DUAL PORTFOLIO • KELAS X-K
+                </div>
+
+                <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-none uppercase">
+                    THE TECH <span class="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 bg-clip-text text-transparent neon-glow-cyan">DUO MASTERS</span>
+                </h1>
+
+                <p class="text-slate-400 text-sm sm:text-base font-normal max-w-2xl mx-auto leading-relaxed">
+                    Sinergi dua antusias teknologi kelas X-K. Kombinasi eksplorasi dunia <strong class="text-cyan-400">Sistem Operasi & Software Linux</strong> oleh Mustafa dengan eksperimen <strong class="text-blue-400">Bongkar Pasang Hardware PC</strong> oleh Endra.
+                </p>
+            </div>
+
+            <!-- Profile Cards Side By Side (Mustafa vs Endra) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+                
+                <!-- CARD MUSTAFA -->
+                <div class="amoled-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden group reveal">
+                    <div class="absolute -top-24 -right-24 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                    <div class="space-y-6">
+                        <!-- Card Badge -->
+                        <div class="flex items-center justify-between border-b border-cyan-500/15 pb-4">
+                            <span class="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center gap-1.5">
+                                <i data-lucide="terminal" class="w-3.5 h-3.5"></i> SOFTWARE & OS SPECIALIST
+                            </span>
+                            <span class="text-xs font-mono text-slate-500">KELAS X-K</span>
+                        </div>
+
+                        <!-- Profile Header & Slot Foto (Mustafa) -->
+                        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
+                            <div class="relative group/avatar">
+                                <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-cyan-400/50 p-1 neon-border-glow bg-slate-900 flex-shrink-0">
+                                    <!-- Foto Mustafa Andhika Wirajaya -->
+                                    <img src="MUSTAFA.jpg" alt="Foto Mustafa Andhika Wirajaya" class="w-full h-full object-cover rounded-xl group-hover/avatar:scale-110 transition duration-500">
+                                </div>
+                                <div class="absolute -bottom-2 -right-2 bg-cyan-500 text-black p-1.5 rounded-lg shadow-lg">
+                                    <i data-lucide="code" class="w-4 h-4"></i>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <h2 class="text-2xl font-extrabold text-white group-hover:text-cyan-400 transition">MUSTAFA ANDHIKA WIRAJAYA</h2>
+                                <p class="text-xs font-mono text-cyan-400 flex items-center justify-center sm:justify-start gap-1">
+                                    <i data-lucide="laptop" class="w-3.5 h-3.5"></i> User Arch Linux & Laptop Enthusiast
+                                </p>
+                                <p class="text-xs text-slate-300 leading-relaxed pt-1">
+                                    Sangat menyukai dunia komputer. Memiliki pengalaman sebagai pengguna <strong class="text-cyan-300">Arch Linux sejak tahun 2025</strong> dan gemar bermain serta ngulik sistem laptop sejak kelas 6 SD hingga kini kelas 1 SMA (X-K).
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Highlight Skills / Specs -->
+                        <div class="space-y-2 pt-2">
+                            <span class="text-[10px] font-mono uppercase text-slate-400 tracking-wider">Keahlian Utama & Minat:</span>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2.5 py-1 rounded-lg bg-slate-900 border border-cyan-500/20 text-xs font-mono text-slate-200">Arch Linux (OS 2025)</span>
+                                <span class="px-2.5 py-1 rounded-lg bg-slate-900 border border-cyan-500/20 text-xs font-mono text-slate-200">Laptop Customization</span>
+                                <span class="px-2.5 py-1 rounded-lg bg-slate-900 border border-cyan-500/20 text-xs font-mono text-slate-200">Terminal & Bash</span>
+                                <span class="px-2.5 py-1 rounded-lg bg-slate-900 border border-cyan-500/20 text-xs font-mono text-slate-200">System Performance</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Action Card -->
+                    <div class="pt-6 mt-6 border-t border-cyan-500/10 flex items-center justify-between">
+                        <button onclick="triggerTerminalCmd('mustafa')" class="text-xs font-mono text-cyan-400 hover:underline flex items-center gap-1.5">
+                            <i data-lucide="play" class="w-3.5 h-3.5"></i> Cek Log Mustafa
+                        </button>
+                        <span class="text-[10px] font-mono text-slate-500">Pengalaman SD - SMA</span>
+                    </div>
+                </div>
+
+                <!-- CARD ENDRA -->
+                <div class="amoled-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden group reveal" style="transition-delay: 0.15s;">
+                    <div class="absolute -top-24 -right-24 w-48 h-48 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                    <div class="space-y-6">
+                        <!-- Card Badge -->
+                        <div class="flex items-center justify-between border-b border-blue-500/15 pb-4">
+                            <span class="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-blue-500/10 text-blue-400 border border-blue-500/30 flex items-center gap-1.5">
+                                <i data-lucide="wrench" class="w-3.5 h-3.5"></i> HARDWARE & PC ASSEMBLY EXPERT
+                            </span>
+                            <span class="text-xs font-mono text-slate-500">KELAS X-K</span>
+                        </div>
+
+                        <!-- Profile Header & Slot Foto (Endra) -->
+                        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
+                            <div class="relative group/avatar">
+                                <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-blue-500/50 p-1 neon-border-glow bg-slate-900 flex-shrink-0">
+                                    <!-- Foto Endra Adhibrata -->
+                                    <img src="ENDRA.jpg" alt="Foto Endra Adhibrata" class="w-full h-full object-cover rounded-xl group-hover/avatar:scale-110 transition duration-500">
+                                </div>
+                                <div class="absolute -bottom-2 -right-2 bg-blue-600 text-white p-1.5 rounded-lg shadow-lg">
+                                    <i data-lucide="cpu" class="w-4 h-4"></i>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <h2 class="text-2xl font-extrabold text-white group-hover:text-blue-400 transition">ENDRA ADHIBRATA</h2>
+                                <p class="text-xs font-mono text-blue-400 flex items-center justify-center sm:justify-start gap-1">
+                                    <i data-lucide="hard-drive" class="w-3.5 h-3.5"></i> PC Component Inspector & Explorer
+                                </p>
+                                <p class="text-xs text-slate-300 leading-relaxed pt-1">
+                                    Hobi menggeledah isi hardware PC dan bongkar pasang komponen komputer. Kegemaran ini telah digeluti sejak <strong class="text-blue-300">kelas 4 SD (tahun 2015)</strong> hingga sekarang kelas 1 SMA (X-K).
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Highlight Skills / Specs -->
+                        <div class="space-y-2 pt-2">
+                            <span class="text-[10px] font-mono uppercase text-slate-400 tracking-wider">Keahlian Utama & Minat:</span>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2.5 py-1 rounded-lg bg-slate-900 border border-blue-500/20 text-xs font-mono text-slate-200">PC Building & Assembly</span>
+                                <span class="px-2.5 py-1 rounded-lg bg-slate-900 border border-blue-500/20 text-xs font-mono text-slate-200">Hardware Troubleshooting</span>
+                                <span class="px-2.5 py-1 rounded-lg bg-slate-900 border border-blue-500/20 text-xs font-mono text-slate-200">Pengalaman Sejak 2015</span>
+                                <span class="px-2.5 py-1 rounded-lg bg-slate-900 border border-blue-500/20 text-xs font-mono text-slate-200">Thermal Management</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Action Card -->
+                    <div class="pt-6 mt-6 border-t border-blue-500/10 flex items-center justify-between">
+                        <button onclick="triggerTerminalCmd('endra')" class="text-xs font-mono text-blue-400 hover:underline flex items-center gap-1.5">
+                            <i data-lucide="play" class="w-3.5 h-3.5"></i> Cek Log Endra
+                        </button>
+                        <span class="text-[10px] font-mono text-slate-500">Pengalaman SD (2015) - SMA</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section: Software vs Hardware Comparison Matrix -->
+        <section id="specs" class="space-y-8">
+            <div class="text-center max-w-2xl mx-auto space-y-2 reveal">
+                <h2 class="text-2xl sm:text-3xl font-extrabold uppercase">Matriks Keahlian & Spesifikasi Duo</h2>
+                <p class="text-xs sm:text-sm text-slate-400">Komparasi fokus antusiasme teknologi antara Mustafa dan Endra.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+                
+                <!-- MUSTAFA'S TECH MATRIX -->
+                <div class="amoled-card p-6 rounded-3xl space-y-4 border-l-4 border-l-cyan-400">
+                    <div class="flex items-center justify-between border-b border-cyan-500/10 pb-3">
+                        <h3 class="font-bold text-lg text-cyan-400 flex items-center gap-2">
+                            <i data-lucide="terminal" class="w-5 h-5"></i> Software & OS Spec (Mustafa)
+                        </h3>
+                        <span class="text-xs font-mono text-slate-500">X-K LINUX LAB</span>
+                    </div>
+
+                    <div class="space-y-3 font-mono text-xs">
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>Arch Linux & Custom Ricing</span>
+                                <span class="text-cyan-400">92%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-slate-900 overflow-hidden">
+                                <div class="h-full bg-cyan-400 rounded-full" style="width: 92%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>Pengolahan Laptop & Optimasi Sistem</span>
+                                <span class="text-cyan-400">95%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-slate-900 overflow-hidden">
+                                <div class="h-full bg-cyan-400 rounded-full" style="width: 95%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>CLI Commands & Scripting</span>
+                                <span class="text-cyan-400">88%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-slate-900 overflow-hidden">
+                                <div class="h-full bg-cyan-400 rounded-full" style="width: 88%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ENDRA'S TECH MATRIX -->
+                <div class="amoled-card p-6 rounded-3xl space-y-4 border-l-4 border-l-blue-500">
+                    <div class="flex items-center justify-between border-b border-blue-500/10 pb-3">
+                        <h3 class="font-bold text-lg text-blue-400 flex items-center gap-2">
+                            <i data-lucide="cpu" class="w-5 h-5"></i> Hardware Assembly Spec (Endra)
+                        </h3>
+                        <span class="text-xs font-mono text-slate-500">X-K HW LAB</span>
+                    </div>
+
+                    <div class="space-y-3 font-mono text-xs">
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>Bongkar Pasang Komponen PC</span>
+                                <span class="text-blue-400">98%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-slate-900 overflow-hidden">
+                                <div class="h-full bg-blue-500 rounded-full" style="width: 98%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>Deteksi & Hardware Troubleshooting</span>
+                                <span class="text-blue-400">90%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-slate-900 overflow-hidden">
+                                <div class="h-full bg-blue-500 rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>Manajemen Kabel & Airflow Case</span>
+                                <span class="text-blue-400">94%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-slate-900 overflow-hidden">
+                                <div class="h-full bg-blue-500 rounded-full" style="width: 94%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Interactive Timeline (Sejarah SD hingga SMA X-K) -->
+        <section id="timeline" class="space-y-8">
+            <div class="text-center max-w-2xl mx-auto space-y-2 reveal">
+                <h2 class="text-2xl sm:text-3xl font-extrabold uppercase">Lini Masa Perjalanan Teknologi</h2>
+                <p class="text-xs sm:text-sm text-slate-400">Jejak pengalaman dari bangku SD hingga bersama di Kelas X-K.</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto relative pl-6 sm:pl-8 border-l-2 border-cyan-500/30 space-y-10 reveal">
+                
+                <!-- Timeline Item 1: Endra SD Kelas 4 (2015) -->
+                <div class="relative group">
+                    <div class="absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-blue-500 ring-4 ring-black group-hover:scale-125 transition"></div>
+                    <div class="amoled-card p-5 sm:p-6 rounded-2xl space-y-2">
+                        <div class="flex items-center justify-between text-xs font-mono">
+                            <span class="px-2.5 py-0.5 rounded-md bg-blue-500/20 text-blue-400 border border-blue-500/30 font-bold">TAHUN 2015 • KELAS 4 SD</span>
+                            <span class="text-slate-500">Pelopor: Endra Adhibrata</span>
+                        </div>
+                        <h3 class="text-base font-bold text-white">Awal Mula Hobi Eksplorasi Hardware PC</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Endra mulai menggeledah isi PC, membongkar komponen motherboard, processor, RAM, dan power supply untuk mempelajari cara kerja internal komputer secara langsung.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 2: Mustafa SD Kelas 6 -->
+                <div class="relative group">
+                    <div class="absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-cyan-400 ring-4 ring-black group-hover:scale-125 transition"></div>
+                    <div class="amoled-card p-5 sm:p-6 rounded-2xl space-y-2">
+                        <div class="flex items-center justify-between text-xs font-mono">
+                            <span class="px-2.5 py-0.5 rounded-md bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 font-bold">KELAS 6 SD</span>
+                            <span class="text-slate-500">Pelopor: Mustafa Andhika</span>
+                        </div>
+                        <h3 class="text-base font-bold text-white">Mulai Ketagihan Bermain & Ngulik Laptop</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Mustafa menyukai komputer dan rutin bermain laptop, menguji berbagai aplikasi, hingga mengeksplorasi pengaturan sistem operasi dasar.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 3: Mustafa 2025 Arch Linux -->
+                <div class="relative group">
+                    <div class="absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-cyan-400 ring-4 ring-black group-hover:scale-125 transition"></div>
+                    <div class="amoled-card p-5 sm:p-6 rounded-2xl space-y-2">
+                        <div class="flex items-center justify-between text-xs font-mono">
+                            <span class="px-2.5 py-0.5 rounded-md bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 font-bold">TAHUN 2025</span>
+                            <span class="text-slate-500">Pelopor: Mustafa Andhika</span>
+                        </div>
+                        <h3 class="text-base font-bold text-white">Resmi Menjadi Pengguna Arch Linux</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Mustafa mendalami sistem operasi Linux berbasis Arch. Belajar mengelola terminal CLI, kustomisasi window manager, dan manajemen paket secara terampil.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 4: KELAS X-K -->
+                <div class="relative group">
+                    <div class="absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-indigo-500 ring-4 ring-black group-hover:scale-125 transition"></div>
+                    <div class="amoled-card p-5 sm:p-6 rounded-2xl space-y-2 border border-indigo-500/30">
+                        <div class="flex items-center justify-between text-xs font-mono">
+                            <span class="px-2.5 py-0.5 rounded-md bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 font-bold">SEKARANG • KELAS X-K SMA</span>
+                            <span class="text-slate-500">Duo Collaboration</span>
+                        </div>
+                        <h3 class="text-base font-bold text-white">Kolaborasi Tech Duo Kelas X-K</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Mustafa dan Endra bersatu di Kelas X-K SMA. Menyatukan dua keahlian tangguh: pemahaman OS & software laptop oleh Mustafa serta bongkar pasang hardware PC oleh Endra.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Terminal Interactive Mini App -->
+        <section id="terminal" class="space-y-6 reveal">
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <h2 class="text-2xl sm:text-3xl font-extrabold uppercase">Duo Interactive CLI Terminal</h2>
+                <p class="text-xs sm:text-sm text-slate-400">Ketik perintah untuk berinteraksi langsung dengan sistem data Mustafa & Endra.</p>
+            </div>
+
+            <div class="amoled-card rounded-3xl overflow-hidden border border-cyan-500/30 max-w-4xl mx-auto shadow-2xl">
+                <!-- Terminal Header Bar -->
+                <div class="bg-black/90 px-4 py-3 border-b border-cyan-500/20 flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-yellow-500/80 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-green-500/80 inline-block"></span>
+                    </div>
+                    <span class="text-xs font-mono text-cyan-400/80">duo-tech@x-k-terminal:~ (bash)</span>
+                    <i data-lucide="terminal" class="w-4 h-4 text-cyan-400"></i>
+                </div>
+
+                <!-- Terminal Display Body -->
+                <div id="terminalBody" class="p-6 font-mono text-xs sm:text-sm bg-black/95 text-slate-200 space-y-3 min-h-[280px] max-h-[380px] overflow-y-auto">
+                    <div>
+                        <span class="text-cyan-400">guest@xk-tech:~$</span> <span class="text-white">help</span>
+                    </div>
+                    <div class="text-slate-400 leading-relaxed pl-2 border-l-2 border-cyan-500/50">
+                        Perintah Interaktif Tersedia:<br>
+                        - <button onclick="triggerTerminalCmd('mustafa')" class="text-cyan-400 hover:underline font-bold">mustafa</button> : Profil & Log Arch Linux Mustafa<br>
+                        - <button onclick="triggerTerminalCmd('endra')" class="text-blue-400 hover:underline font-bold">endra</button> : Profil & Log Hardware Endra<br>
+                        - <button onclick="triggerTerminalCmd('arch')" class="text-cyan-400 hover:underline font-bold">arch</button> : Info Kernel Arch Linux 2025<br>
+                        - <button onclick="triggerTerminalCmd('hardware')" class="text-blue-400 hover:underline font-bold">hardware</button> : Daftar Komponen PC yang biasa di-unmount<br>
+                        - <button onclick="triggerTerminalCmd('clear')" class="text-slate-300 hover:underline font-bold">clear</button> : Bersihkan layar terminal
+                    </div>
+                    <div id="terminalOutput"></div>
+
+                    <!-- Input Command Prompt -->
+                    <form onsubmit="handleTerminalSubmit(event)" class="flex items-center gap-2 pt-2">
+                        <span class="text-cyan-400">guest@xk-tech:~$</span>
+                        <input type="text" id="terminalInput" class="flex-1 bg-transparent border-none outline-none text-white focus:ring-0 text-xs sm:text-sm font-mono" placeholder="ketik di sini (contoh: mustafa / endra)..." autocomplete="off">
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Contact Duo -->
+        <section id="contact" class="amoled-card rounded-3xl p-6 sm:p-10 border border-cyan-500/20 reveal">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-mono">
+                        <i data-lucide="message-square" class="w-4 h-4"></i> SALURAN KOMUNIKASI
+                    </div>
+                    <h2 class="text-3xl font-extrabold uppercase text-white">Hubungi Duo Kelas X-K</h2>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                        Tertarik berdiskusi soal Linux, troubleshooting laptop, rekomendasi rakitan PC, atau kolaborasi proyek komputer? Kontak kami!
+                    </p>
+
+                    <!-- Quick Copy Contacts -->
+                    <div class="space-y-3 pt-2">
+                        <div class="p-3.5 rounded-2xl bg-black border border-cyan-500/20 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="terminal" class="w-5 h-5 text-cyan-400"></i>
+                                <div>
+                                    <p class="text-[10px] text-slate-500 uppercase font-mono">Mustafa (Software/Linux)</p>
+                                    <p class="text-xs font-bold text-slate-200">mustafa.xk@example.com</p>
+                                </div>
+                            </div>
+                            <button onclick="copyContact('mustafa.xk@example.com', 'Email Mustafa')" class="px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500 text-cyan-400 hover:text-black transition text-xs font-mono font-bold">
+                                Copy
+                            </button>
+                        </div>
+
+                        <div class="p-3.5 rounded-2xl bg-black border border-blue-500/20 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="cpu" class="w-5 h-5 text-blue-400"></i>
+                                <div>
+                                    <p class="text-[10px] text-slate-500 uppercase font-mono">Endra (Hardware/PC)</p>
+                                    <p class="text-xs font-bold text-slate-200">endra.xk@example.com</p>
+                                </div>
+                            </div>
+                            <button onclick="copyContact('endra.xk@example.com', 'Email Endra')" class="px-3 py-1.5 rounded-xl bg-blue-500/10 hover:bg-blue-500 text-blue-400 hover:text-white transition text-xs font-mono font-bold">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Duo Quick Message Box -->
+                <div class="p-6 rounded-2xl bg-black border border-slate-800 space-y-4">
+                    <h3 class="text-sm font-bold font-mono text-cyan-400">KIRIM PESAN SINGKAT</h3>
+                    <form onsubmit="sendMessage(event)" class="space-y-3 text-xs">
+                        <div>
+                            <label class="block text-slate-400 mb-1">Nama Anda</label>
+                            <input type="text" required class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-800 focus:border-cyan-400 text-white outline-none transition" placeholder="Masukkan nama...">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 mb-1">Pesan untuk Siapa?</label>
+                            <select class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-800 focus:border-cyan-400 text-white outline-none transition">
+                                <option>Mustafa & Endra (Keduanya)</option>
+                                <option>Mustafa (Sistem & Linux)</option>
+                                <option>Endra (Hardware PC)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 mb-1">Pesan</label>
+                            <textarea rows="3" required class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-800 focus:border-cyan-400 text-white outline-none transition" placeholder="Tuliskan pesan Anda..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-extrabold hover:opacity-90 transition shadow-lg shadow-cyan-500/20">
+                            Kirim Pesan
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-cyan-500/10 py-8 text-center text-xs font-mono text-slate-500 bg-black">
+        <p>© 2026 Mustafa Andhika Wirajaya & Endra Adhibrata (Kelas X-K). All rights reserved.</p>
+    </footer>
+
+    <!-- Toast Popup Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 hidden amoled-card px-4 py-3 rounded-2xl shadow-2xl border border-cyan-400/40 flex items-center gap-3 text-xs font-mono">
+        <i data-lucide="check-circle" class="w-5 h-5 text-cyan-400"></i>
+        <span id="toastText" class="text-slate-200">Pesan berhasil dikirim!</span>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons on Load
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            initScrollReveal();
+        });
+
+        // Toggle Mobile Navigation
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Animate On Scroll (Intersection Observer for ultra smooth reveal)
+        function initScrollReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                threshold: 0.12
+            });
+
+            reveals.forEach(el => observer.observe(el));
+        }
+
+        // Terminal Interaktif Logic
+        function triggerTerminalCmd(cmd) {
+            const output = document.getElementById('terminalOutput');
+            let res = '';
+
+            if (cmd === 'mustafa') {
+                res = `<div class="text-cyan-300">
+                    [MUSTAFA LOG]<br>
+                    - Nama: Mustafa Andhika Wirajaya (Kelas X-K)<br>
+                    - Status: Suka Komputer & Laptop sejak Kelas 6 SD.<br>
+                    - OS Utama: Arch Linux (Pengguna aktif sejak tahun 2025).<br>
+                    - Spesialisasi: System Tweak, Terminal Bash, Custom Kernel/Ricing.
+                </div>`;
+            } else if (cmd === 'endra') {
+                res = `<div class="text-blue-300">
+                    [ENDRA LOG]<br>
+                    - Nama: Endra Adhibrata (Kelas X-K)<br>
+                    - Status: Hobi Menggeledah Hardware PC sejak Kelas 4 SD (2015).<br>
+                    - Keahlian: Bongkar Pasang Komponen, Thermal Repaste, Cable Management.<br>
+                    - Pengalaman: 11+ Tahun Eksplorasi Fisik Hardware PC.
+                </div>`;
+            } else if (cmd === 'arch') {
+                res = `<div class="text-cyan-400">
+                    [ARCH LINUX SYSTEM INFO]<br>
+                    OS: Arch Linux x86_64 (2025 Release)<br>
+                    Kernel: Linux 6.12.x-arch1-1<br>
+                    Uptime: 99.9% Laptop Daily Driver Mustafa
+                </div>`;
+            } else if (cmd === 'hardware') {
+                res = `<div class="text-blue-400">
+                    [HARDWARE ASSEMBLY CHECKLIST]<br>
+                    1. Motherboard & CPU Socket Inspector<br>
+                    2. RAM Dual Channel Slot Alignment<br>
+                    3. GPU PCIe Lock & Power Pin Cable<br>
+                    4. PSU Modular Power Distribution
+                </div>`;
+            } else if (cmd === 'clear') {
+                output.innerHTML = '';
+                return;
+            } else {
+                res = `<p class="text-red-400">Perintah '${cmd}' tidak ditemukan. Ketik 'help' untuk panduan.</p>`;
+            }
+
+            output.innerHTML += `
+                <div class="my-2">
+                    <span class="text-cyan-400">guest@xk-tech:~$</span> <span class="text-white">${cmd}</span>
+                    <div class="mt-1 pl-2 border-l-2 border-slate-700">${res}</div>
+                </div>
+            `;
+
+            const body = document.getElementById('terminalBody');
+            body.scrollTop = body.scrollHeight;
+        }
+
+        function handleTerminalSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('terminalInput');
+            const val = input.value.trim().toLowerCase();
+            if (val) {
+                triggerTerminalCmd(val);
+                input.value = '';
+            }
+        }
+
+        // Copy Contact Utility
+        function copyContact(text, label) {
+            document.execCommand('copy');
+            showToast(`${label} berhasil disalin!`);
+        }
+
+        function sendMessage(e) {
+            e.preventDefault();
+            showToast("Pesan Anda berhasil terkirim ke Duo X-K!");
+            e.target.reset();
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastText').innerText = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
